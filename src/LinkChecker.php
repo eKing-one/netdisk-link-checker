@@ -69,10 +69,10 @@ class LinkChecker
      *
      * @param string $url 请求的 URL
      * @param array $headers 请求头
-     * @param array $body 请求体
+     * @param array $data 请求体
      * @return array 包含响应码、响应头、响应体和错误信息的数组
      */
-    public function post($url, $headers, $body) {
+    public function post($url, $headers, $data) {
         // 初始化 cURL 会话
         $ch = curl_init();
         // 设置请求的 URL
@@ -84,8 +84,8 @@ class LinkChecker
         // 设置请求方法为 POST
         curl_setopt($ch, CURLOPT_POST, true);
         // 如果请求体不为空，设置请求体
-        if (!empty($body)) {
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($body));
+        if (!empty($data)) {
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         }
         // 如果请求头不为空，设置请求头
         if (!empty($headers)) {
@@ -142,15 +142,14 @@ class LinkChecker
         $share_id = substr($url, 30);
         // 构建获取分享信息的API URL
         $url = "https://api.aliyundrive.com/adrive/v3/share_link/get_share_by_anonymous?share_id=". $share_id;
-        // 设置请求参数
-        $param = ["share_id" => $share_id];
+        
         // 设置请求头
         $headers = [
             "User-Agent: Mozilla/5.0 (Linux; Android 11; SM-G9880) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.37 Mobile Safari/537.36",
             "Referer: https://www.aliyundrive.com/",
         ];
         // 将请求参数编码为JSON格式
-        $data = json_encode($param);
+        $data = json_encode(["share_id" => $share_id]);
         // 发起POST请求获取分享信息
         list($code, $header, $body, $error) = $this->post($url, $headers, $data);
         // 如果请求失败或响应体为空，返回 false
@@ -188,7 +187,8 @@ class LinkChecker
             'Referer: https://pan.quark.cn',
         ];
         // 发起POST请求获取分享信息
-        list($code, $header, $body, $error) = $this->post($apiUrl, $headers, ['pwd_id' => $pwd_id]);
+        $data = ['pwd_id' => $pwd_id];
+        list($code, $header, $body, $error) = $this->post($apiUrl, $headers, $data);
     
         // 打印响应内容和HTTP状态码
     
