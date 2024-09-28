@@ -107,8 +107,7 @@ class LinkChecker
         $response = curl_exec($ch);
         // 获取错误信息
         $error = curl_error($ch);
-        // 关闭 cURL 会话
-        curl_close($ch);
+        
     
         // 检查是否有错误发生
         if ($error) {
@@ -123,7 +122,8 @@ class LinkChecker
         $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
         $responseHeader = substr($response, 0, $headerSize);
         $responseBody = substr($response, $headerSize);
-    
+        // 关闭 cURL 会话
+        curl_close($ch);
         // 返回响应码、响应头、响应体
         return [$httpCode, $responseHeader, $responseBody, null];
     }
@@ -180,7 +180,7 @@ class LinkChecker
         }
         // 提取提取码
         $pwd_id = $matches[1];
-
+    
         // 构建获取分享信息的API URL
         $apiUrl = "https://pan.quark.cn/1/clouddrive/share/sharepage/token";
         // 设置请求头，指定Referer
@@ -189,13 +189,19 @@ class LinkChecker
         ];
         // 发起POST请求获取分享信息
         list($code, $header, $body, $error) = $this->post($apiUrl, $headers, ['pwd_id' => $pwd_id]);
-
+    
+        // 打印响应内容和HTTP状态码
+    
         // 如果请求成功
-        if ($body && $code == 200) {
+        if ($body) {
             // 解析返回的JSON数据
             $r = json_decode($body, true);
             // 返回是否存在错误码（即链接是否有效）
-            return $r['code'] == 0 || $r['code'] == 41008;
+            if ($r['code'] == 0 && $r['message'] == 'ok'){
+                return true;
+            }else{
+                return false;
+            }
         } else {
             // 如果请求失败，返回false
             return false;
