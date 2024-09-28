@@ -1,0 +1,20 @@
+{
+    "name": "eking/netdisk-link-checker",
+    "description": "A PHP library to check the validity of netdisk sharing links.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "eKing",
+            "email": "eKing-one@outlook.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "NetDiskLinkChecker\\": "src/"
+        }
+    }
+}
