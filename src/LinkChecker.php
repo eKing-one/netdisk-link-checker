@@ -191,7 +191,7 @@ class LinkChecker
         list($code, $header, $body, $error) = $this->post($apiUrl, $headers, ['pwd_id' => $pwd_id]);
 
         // 如果请求成功
-        if ($body) {
+        if ($body && $code == 200) {
             // 解析返回的JSON数据
             $r = json_decode($body, true);
             // 返回是否存在错误码（即链接是否有效）
