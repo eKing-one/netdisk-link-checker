@@ -153,13 +153,13 @@ class LinkChecker
         // 发起POST请求获取分享信息
         list($code, $header, $body, $error) = $this->post($url, $headers, $data);
         // 如果请求失败或响应体为空，返回 false
-        if ($body === null) {
+        $responseData = json_decode($body);
+        // 检查响应数据
+        if ($responseData && isset($responseData->display_name)) {
+            return true;
+        } else {
             return false;
-        }
-        // 解析返回的JSON数据
-        $r = json_decode($body);
-        // 返回创建者手机号是否为空（即链接是否有效）
-        return empty($r->creator_phone);
+        };
     }
 
 
