@@ -17,7 +17,7 @@ composer require eking/netdisk-link-checker
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-use eking-one\netdisk\LinkChecker;
+use eking\netdisk\LinkChecker;
 
 $checker = new LinkChecker();
 if ($checker->checkUrl('https://www.aliyundrive.com/s/someshareid')) {
