@@ -20,7 +20,7 @@ class LinkChecker
      * @param array $headers 请求头
      * @return array 包含响应码、响应头、响应体和错误信息的数组
      */
-    function get($url, $headers = [])
+    protected function get($url, $headers = [])
     {
         // 初始化一个新的 cURL 会话
         $ch = curl_init();
@@ -73,7 +73,7 @@ class LinkChecker
      * @param array $data 请求体
      * @return array 包含响应码、响应头、响应体和错误信息的数组
      */
-    public function post($url, $headers, $data)
+    protected function post($url, $headers, $data)
     {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -121,7 +121,7 @@ class LinkChecker
      * @param string $url 阿里云盘分享链接
      * @return bool 如果链接有效，返回 true；否则返回 false
      */
-    public function aliYunCheck($url)
+    protected function aliYunCheck($url)
     {
         $share_id = substr($url, 30);
         $url = "https://api.aliyundrive.com/adrive/v3/share_link/get_share_by_anonymous?share_id=" . $share_id;
@@ -149,7 +149,7 @@ class LinkChecker
      * @param string $url 夸克网盘分享链接
      * @return bool 如果链接有效，返回 true；否则返回 false
      */
-    public function quarkCheck($url)
+    protected function quarkCheck($url)
     {
         // $url = 'https://pan.quark.cn/s/4e4cdbad65a0';
         // 使用正则表达式从URL中提取分享ID
@@ -197,7 +197,7 @@ class LinkChecker
      * @param string $url 百度云盘分享链接
      * @return bool 如果链接有效，返回 true；否则返回 false
      */
-    public function baiduYunCheck($url)
+    protected function baiduYunCheck($url)
     {
         $headers = [
             "User-Agent" => "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/94.0.4606.81",
@@ -221,7 +221,7 @@ class LinkChecker
      * @param string $url 115 网盘分享链接
      * @return bool 如果链接有效，返回 true；否则返回 false
      */
-    public function d115check($url)
+    protected function d115check($url)
     {
         $url = "https://webapi.115.com/share/snap?share_code=" . substr($url, 18, 11);
         list($code, $header, $body, $error) = $this->get($url, []);
