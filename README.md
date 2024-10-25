@@ -10,10 +10,22 @@ LinkChecker 是一个用于检查不同云存储服务分享链接有效性的�
 
 ```require_once 'path/to/LinkChecker.php';```
 ### 使用 Composer
-如果 LinkChecker 发布到了 Composer 仓库，你可以使用 Composer 进行安装：
-
+LinkChecker 没有发布到了 Composer 仓库，你可以修改 Composer.json 进行安装：
 ```
-composer require eking/link-checker
+{
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/eKing-one/netdisk-link-checker.git"
+        }
+    ],
+    "require": {
+        "eking/netdisk": "dev-main"
+    }
+}
+```
+```
+composer update eking/netdisk
 ```
 
 然后，在你的 PHP 脚本中使用 Composer 的自动加载功能：
