@@ -20,7 +20,7 @@ class LinkChecker
      * @param array $headers 请求头
      * @return array 包含响应码、响应头、响应体和错误信息的数组
      */
-    function get($url, $headers = [])
+    public function get($url, $headers = [])
     {
         // 初始化一个新的 cURL 会话
         $ch = curl_init();
