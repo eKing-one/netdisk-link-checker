@@ -123,7 +123,10 @@ class LinkChecker
      */
     protected function aliYunCheck($url)
     {
-        $share_id = substr($url, 30);
+        $pattern = '/s\/(.*)/';
+        preg_match($pattern, $url, $matches);
+        $share_id = substr($matches[1], 30);
+        
         $url = "https://api.aliyundrive.com/adrive/v3/share_link/get_share_by_anonymous?share_id=" . $share_id;
         $headers = [
             "User-Agent: Mozilla/5.0 (Linux; Android 11; SM-G9880) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.37 Mobile Safari/537.36",
@@ -246,6 +249,11 @@ class LinkChecker
             // 如果是阿里云盘的URL，调用aliYunCheck方法进行检查
             return $this->aliYunCheck($url);
         }
+        elseif (strpos($url, 'alipan.com') !== false) {
+            // 如果是阿里云盘的URL，调用aliYunCheck方法进行检查
+            return $this->aliYunCheck($url);
+        }
+        
         // 检查URL中是否包含115网盘的域名
         elseif (strpos($url, '115.com') !== false) {
             // 如果是115网盘的URL，调用d115check方法进行检查
